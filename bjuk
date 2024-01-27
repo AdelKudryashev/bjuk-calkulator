@@ -1,0 +1,92 @@
+#!/bin/bash
+echo Выбирете Ваш уровень ежедневной физической нагрузки
+echo 1 Сидячий образ жизни
+echo 2 Легкие тренировки 1-2 раза в неделю или многотпеших прогулок/подвижный образ жизни/работа на ногах
+echo 3 Умеренная активность 3-5 в неделю
+echo 4 Повышенная активность, спорт 5-7 раз в неделю, 3 трени в неделю+очень подвижный образ жизни 
+echo 5 Профессиональный спортсмен
+read Activity
+if [ $Activity -gt 0 ] && [ $Activity -lt 5 ]
+then
+  if [ "$Activity" -eq 1 ]
+then
+ActivityRatio=1.2
+fi
+if [ "$Activity" -eq 2 ]
+then
+ActivityRatio=1.375
+fi
+if [ "$Activity" -eq 3 ]
+then
+ActivityRatio=1.55
+fi
+if [ "$Activity" -eq 4 ]
+then
+ActivityRatio=1.75
+fi
+if [ "$Activity" -eq 5 ]
+then
+ActivityRatio=1.9
+fi
+else echo Перезапустите скрипт и выберите значение от 1 до 5
+exit
+fi
+
+
+echo "Выберите пол (ввести 1 или 2):"
+echo "1 - Мужской"
+echo "2 - Женский"
+read Sex
+
+case $Sex in
+
+1)
+echo Введите возраст, полных лет:
+read Age
+echo Введите вес, кг:
+read Weight
+echo Введите рост, см:
+read Height
+KkalMax=$(bc<<<"scale=2; 6.55+13.75*$Weight+5*$Height-6.78*$Age")
+KkalActivity=$(bc<<<"scale=2; $KkalMax*$ActivityRatio")
+Proteins=$(bc<<<"scale=2; $KkalActivity*0.25/4")
+Fats=$(bc<<<"scale=2; $KkalActivity*0.3/9")
+Carbon=$(bc<<<"scale=2; $KkalActivity*0.45/4")
+
+echo Поддерживающий каллораж
+echo $KkalActivity ККал/Сутки
+echo Белков
+echo $Proteins грамм/сутки
+echo Жиров
+echo $Fats грамм/сутки
+echo Углеводов
+echo $Carbon грамм/сутки
+    ;;
+
+2)
+echo Введите возраст, полных лет:
+read Age
+echo Введите вес, кг:
+read Weight
+echo Введите рост, см:
+read Height
+KkalMax=$(bc<<<"scale=2; 655+9.56*$Weight+1.85*$Height-4.68*$Age")
+KkalActivity=$(bc<<<"scale=2; $KkalMax*$ActivityRatio")
+Proteins=$(bc<<<"scale=2; $KkalActivity*0.25/4")
+Fats=$(bc<<<"scale=2; $KkalActivity*0.3/9")
+Carbon=$(bc<<<"scale=2; $KkalActivity*0.45/4")
+
+echo Поддерживающий каллораж
+echo $KkalActivity ККал/Сутки
+echo Белков
+echo $Proteins грамм/сутки
+echo Жиров
+echo $Fats грамм/сутки
+echo Углеводов
+echo $Carbon грамм/сутки
+    ;;
+
+  *)
+    echo -n "Перезапустите скрипт и введите цифру 1 или 2"
+    ;;
+esac
